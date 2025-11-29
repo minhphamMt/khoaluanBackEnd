@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  email        String         @unique
+  password     String
+  displayName  String?
+  avatar       String?
+  playlists    Playlist[]
+  interactions Interaction[]
+  createdAt    DateTime       @default(now())
+}
+
+model Song {
+  id            String           @id                     // Spotify Track ID
+  title         String
+  previewUrl    String?
+  audioUrl      String?                                   // link nhạc full Firebase/S3
+  imageUrl      String?
+  durationMs    Int?
+  popularity    Int?
+  albumId       String?
+  artists       SongArtist[]
+  audioFeatures AudioFeature?
+  playlistSongs PlaylistSong[]
+  interactions  Interaction[]     // <-- đã fix: chiều ngược lại của Interaction
+  createdAt     DateTime          @default(now())
+}
+
+model Artist {
+  id        String      @id
+  name      String
+  imageUrl  String?
+  songs     SongArtist[]
+  createdAt DateTime     @default(now())
+}
+
+model SongArtist {
+  songId   String
+  artistId String
+  song     Song    @relation(fields: [songId], references: [id])
+  artist   Artist  @relation(fields: [artistId], references: [id])
+
+  @@id([songId, artistId])
+}
+
+model Playlist {
+  id        Int             @id @default(autoincrement())
+  userId    Int
+  name      String
+  imageUrl  String?
+  user      User            @relation(fields: [userId], references: [id])
+  songs     PlaylistSong[]
+  createdAt DateTime        @default(now())
+}
+
+model PlaylistSong {
+  playlistId Int
+  songId     String
+  position   Int?           @default(0)
+
+  playlist   Playlist       @relation(fields: [playlistId], references: [id])
+  song       Song           @relation(fields: [songId], references: [id])
+
+  @@id([playlistId, songId])
+}
+
+model Interaction {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  songId    String
+  action    String     // listen / like / skip
+  weight    Float?     @default(1)
+  createdAt DateTime   @default(now())
+
+  user      User       @relation(fields: [userId], references: [id])
+  song      Song       @relation(fields: [songId], references: [id])
+}
+
+model AudioFeature {
+  songId           String      @id
+  danceability     Float?
+  energy           Float?
+  valence          Float?
+  tempo            Float?
+  acousticness     Float?
+  instrumentalness Float?
+  liveness         Float?
+  speechiness      Float?
+  song Song @relation(fields: [songId], references: [id])
+}
