@@ -1,0 +1,594 @@
+{
+    "info": {
+        "_postman_id": "d2f4c6a1-0a94-4cb9-a3f5-2e6a9f9d0f30",
+        "name": "khoaluan-backend",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": "Collection to exercise all backend endpoints. Set the {{base_url}} variable (e.g., http://localhost:3001) and {{auth_token}} after login."
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:3001"
+        },
+        {
+            "key": "auth_token",
+            "value": ""
+        }
+    ],
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Register",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"P@ssw0rd\",\n  \"displayName\": \"User\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"P@ssw0rd\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Me",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/auth/me",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "me"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Songs",
+            "item": [
+                {
+                    "name": "List Songs",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/songs",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "songs"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Song",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/songs/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "songs",
+                                ":id"
+                            ]
+                        }
+                    },
+                    "description": "Replace :id with a real song id"
+                },
+                {
+                    "name": "Save From Spotify",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"trackId\": \"<spotify_track_id>\",\n  \"audioUrl\": null\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/songs/saveFromSpotify",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "songs",
+                                "saveFromSpotify"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Search",
+            "item": [
+                {
+                    "name": "Spotify Search",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/search/spotify?q=beatles",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "search",
+                                "spotify"
+                            ],
+                            "query": [
+                                {
+                                    "key": "q",
+                                    "value": "beatles"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Local Search",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/search/local?q=love",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "search",
+                                "local"
+                            ],
+                            "query": [
+                                {
+                                    "key": "q",
+                                    "value": "love"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Playlists",
+            "item": [
+                {
+                    "name": "Create Playlist",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"My Mix\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/playlists",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "playlists"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "My Playlists",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/playlists/mine",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "playlists",
+                                "mine"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Playlist",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/playlists/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "playlists",
+                                ":id"
+                            ]
+                        }
+                    },
+                    "description": "Replace :id with playlist id"
+                },
+                {
+                    "name": "Add Song",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"songId\": \"SONG_ID\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/playlists/:id/add",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "playlists",
+                                ":id",
+                                "add"
+                            ]
+                        }
+                    },
+                    "description": "Replace :id and SONG_ID"
+                },
+                {
+                    "name": "Remove Song",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"songId\": \"SONG_ID\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/playlists/:id/remove",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "playlists",
+                                ":id",
+                                "remove"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Playlist",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/playlists/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "playlists",
+                                ":id"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Interactions",
+            "item": [
+                {
+                    "name": "Listen",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"songId\": \"SONG_ID\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/interactions/listen",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "interactions",
+                                "listen"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Like",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"songId\": \"SONG_ID\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/interactions/like",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "interactions",
+                                "like"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Skip",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"songId\": \"SONG_ID\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/interactions/skip",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "interactions",
+                                "skip"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "History",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/interactions/history",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "interactions",
+                                "history"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Recommendations",
+            "item": [
+                {
+                    "name": "Content Based",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/recommend/content-based/SONG_ID",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "recommend",
+                                "content-based",
+                                "SONG_ID"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "User Based",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/recommend/user-based",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "recommend",
+                                "user-based"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Trending",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/recommend/trending",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "recommend",
+                                "trending"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Weekly",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/recommend/weekly",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "recommend",
+                                "weekly"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Audio",
+            "item": [
+                {
+                    "name": "Audio By Song",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/audio/SONG_ID",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "audio",
+                                "SONG_ID"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
